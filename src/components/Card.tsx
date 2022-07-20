@@ -1,27 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
 import {
   Box,
-  Container,
-  Typography,
-  CardMedia,
   Card as MaterialCard,
+  CardMedia,
+  Typography,
   useTheme,
 } from "@mui/material";
 
-export function Card() {
+interface CardProps {
+  item: {
+    id: string;
+    name: string;
+    image_url: string;
+    luckyNumber: number;
+    description: string;
+  };
+}
+
+export function Card({ item }: CardProps) {
+  const { description, id, image_url, luckyNumber, name } = item;
   const {
     palette: { primary, secondary },
   } = useTheme();
   return (
-    <Box sx={{ cursor: "pointer" }}>
-      <MaterialCard
-        sx={{
-          maxWidth: 200,
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
-          borderRadius: 5,
-        }}
+    
+      <Box
+				display={'flex'}
+				width={200}
+				height={300} 
       >
         <Box
           padding={5}
@@ -43,26 +49,28 @@ export function Card() {
                 right={-35}
               >
                 <Typography textAlign={"center"} color={secondary.contrastText}>
-                  8
+                  {luckyNumber}
                 </Typography>
               </Box>
             </Box>
-            <CardMedia
+            <Box
               component="img"
-              image="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/32.svg"
-              alt="nome"
+              src={image_url}
+              alt={name}
+							width={100}
+							height={100}
+							
             />
           </Box>
           <Box>
             <Typography textAlign={"center"} color={secondary.light}>
-              Nome
+              {name}
             </Typography>
             <Typography textAlign={"center"} color={secondary.light}>
-              Descrição
+              {description}
             </Typography>
           </Box>
         </Box>
-      </MaterialCard>
-    </Box>
+      </Box>
   );
 }
