@@ -47,13 +47,13 @@ const Home: NextPage = () => {
         >
           <Box
             display={"flex"}
-            bgcolor={primary.main}
-            width={"100%"}						
-            height="60%"
+            bgcolor={primary.main}            
             borderRadius={"2rem"}
             justifyContent="center"
             flexDirection={"column"}
             alignItems={"center"}
+						py={5}
+						px={6}
           >
             <Box marginBottom={3}>
               <Typography color={"white"} variant="h3">
