@@ -1,14 +1,36 @@
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
-import { Container } from "@mui/system";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { parseCookies } from "nookies";
+import { useEffect, useState } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { userNameKey } from "../store/localStorageKey";
 
 const Home: NextPage = () => {
+
+	const router = useRouter()
+	
   const {
     palette: { primary, secondary },
-    breakpoints,
+    
   } = useTheme();
+
+	const [userName, setUserName] = useLocalStorage(userNameKey,'')
+	const [userNameError, setUserNameError] = useState('')
+
+	const navigateToShowCards = () => {
+		
+		if(!userName){
+			setUserNameError('Campo requerido')
+			return
+		}
+		router.push('/showcards')
+	}
+
+	useEffect(() => {setUserName('')},[])
+
   return (
     <div>
       <Head>
@@ -26,8 +48,8 @@ const Home: NextPage = () => {
           <Box
             display={"flex"}
             bgcolor={primary.main}
-            width={"30%"}
-            height="40%"
+            width={"100%"}						
+            height="60%"
             borderRadius={"2rem"}
             justifyContent="center"
             flexDirection={"column"}
@@ -49,13 +71,21 @@ const Home: NextPage = () => {
                     borderRadius: 10,
                   },
                 }}
+								onChange={e => {
+									if(userNameError){
+										setUserNameError('')
+									}
+									setUserName(e.target.value)
+								}}
+								error={!!userNameError}
+								helperText={userNameError}
               />
               <Box display={"flex"} justifyContent="flex-end" marginTop={4}>
-                <Link href="/showcards">
-                  <Button variant="contained" color="secondary">
+                
+                  <Button variant="contained" color="secondary" onClick={navigateToShowCards}>
                     Ver as cartas
                   </Button>
-                </Link>
+                
               </Box>
             </Box>
           </Box>

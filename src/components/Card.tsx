@@ -64,10 +64,10 @@ export function Card({ item }: CardProps) {
           </Box>
           <Box>
             <Typography textAlign={"center"} color={secondary.light}>
-              {name}
+						{name}
             </Typography>
             <Typography textAlign={"center"} color={secondary.light}>
-              {description}
+						{description}
             </Typography>
           </Box>
         </Box>

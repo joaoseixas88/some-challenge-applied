@@ -1,14 +1,39 @@
-import { Box, Button, Container, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { parseCookies } from "nookies";
+import { useEffect } from "react";
 import { Card } from "../../components/Card";
 import { useCardsContext } from "../../hooks/CardsContext";
+import { userNameKey } from "../../store/localStorageKey";
 
 export default function ShowCards() {
   const { data, loading, handlePushOne, handleShuffleCards } =
     useCardsContext();
 
+		const router = useRouter()
+  const cookies = parseCookies();
+  const { palette } = useTheme();
+
+	
+	useEffect(() => {
+		if(!cookies[userNameKey]){
+			router.push('/')
+			alert("Por favor preencha seu nome")		
+		}	
+	},[])
   function handlePushOneCard() {
-    if (data.length >= 8) return;
+    if (data.length >= 8) {
+			alert('Você não pode adicionar mais cartas')
+			return
+		}
     handlePushOne();
   }
 
@@ -26,7 +51,11 @@ export default function ShowCards() {
         height="10rem"
         gap={3}
       >
-        <Button variant="contained" color="secondary" onClick={handleShuffleCards}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleShuffleCards}
+        >
           Embaralhar
         </Button>
         <Button
@@ -36,6 +65,17 @@ export default function ShowCards() {
         >
           Nova Carta
         </Button>
+        <Box
+          position={"absolute"}
+          top={10}
+          right={'15%'}
+          bgcolor={palette.secondary.main}
+          px={2}
+          py={1}
+          borderRadius={3}
+        >
+          <Typography variant="subtitle1" color={'white'}>{cookies[userNameKey]}</Typography>
+        </Box>
       </Box>
       <Box
         px={5}
